@@ -10,18 +10,54 @@ class StaticsController < ApplicationController
   def third; end
 
   def plugin
-    condition_open_modal.each do |key, val|
-      cookies[key] = val
-    end
+    cookies[:fanp_chatlink_conditions] = condition_open_modal_json
     render :plugin
   end
 
   private
 
-  def condition_open_modal
+  def condition_open_modal_json
     {
-      from_page: 'top',
-      to_page: 'second'
-    }
+      pages: [
+        {
+          path_regexp: '^/statics/top',
+          page_chatlinks: {
+            banner: {
+              img_url: ''
+            },
+            modal: {
+              condition: {
+                wait_for: 30,
+                ref: '^/statics/second'
+              }
+            }
+          }
+        },
+        {
+          path_regexp: '^/statics/second',
+          page_chatlinks: {
+            banner: {
+              img_url: ''
+            },
+            modal: {
+              condition: {
+                wait_for: 30,
+                ref: '^/statics/third'
+              }
+            }
+          }
+        },
+        {
+          path_regexp: '^/statics/third',
+          page_chatlinks: {
+            modal: {
+              condition: {
+                wait_for: 30
+              }
+            }
+          }
+        }
+      ]
+    }.to_json
   end
 end

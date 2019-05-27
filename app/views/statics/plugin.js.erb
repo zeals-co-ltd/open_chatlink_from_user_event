@@ -1,8 +1,32 @@
-console.log('Hello プラグイン');
-
 var cookiesArray = document.cookie.split('; ');
 console.log(cookiesArray);
 
+
+// 特定のcookieのkeyからJSONをparseする
+let key = 'fanp_chatlink_conditions';
+let jsonVal = JSON.parse(
+  decodeURIComponent(
+    (
+      (document.cookie + ';').match(key + '=([^¥S;]*)')||[]
+    )[1]
+  )
+);
+console.log(jsonVal);
+
+var current_url = location.href;
+var current_path = location.pathname;
+
+// forEeach がBreakできないそうなので someを使用
+jsonVal.pages.some(function(element){
+  var regex = new RegExp(element.path_regexp);
+  var isCurrent = regex.test(current_path);
+  if (isCurrent) {
+    currentChatlinks = element.page_chatlinks
+    return true;
+  }
+})
+
+console.log(currentChatlinks);
 
 var closeContentArr = [
       "<div class='fanp-modal-overLay fanp-modal-close'>",
@@ -12,3 +36,7 @@ var closeContentArr = [
 var modalTag = document.createElement('div');
 modalTag.innerHTML = closeContentArr.join('');
 modalTag.id = 'fanp-modal';
+
+if (false) {
+  document.body.appendChild(modalTag)
+};
