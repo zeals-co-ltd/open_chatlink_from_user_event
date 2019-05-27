@@ -2,15 +2,17 @@ var cookiesArray = document.cookie.split('; ');
 console.log(cookiesArray);
 
 
+const jsonParseCookieVal = cookie_key => {
+  var cookie_val = decodeURIComponent(((document.cookie + ';').match(cookie_key + '=([^¥S;]*)') || [])[1])
+  if (cookie_val == 'undefined') {
+    return undefined;
+  } else {
+    return JSON.parse(cookie_val);
+  }
+}
+
 // 特定のcookieのkeyからJSONをparseする
-let key = 'fanp_chatlink_conditions';
-let jsonVal = JSON.parse(
-  decodeURIComponent(
-    (
-      (document.cookie + ';').match(key + '=([^¥S;]*)')||[]
-    )[1]
-  )
-);
+let jsonVal = jsonParseCookieVal('fanp_chatlink_conditions')
 console.log(jsonVal);
 
 var current_url = location.href;
@@ -28,6 +30,22 @@ jsonVal.paterns.some(function(element){
 })
 
 console.log(currentChatlinks);
+
+transition_val = jsonParseCookieVal('transition_count');
+transition_count = !transition_val ? 0 : Number(transition_val);
+console.log(transition_count)
+
+var current_host = location.protocol + '//' + location.host;
+var referrer_url = document.referrer;
+var hostRegex = new RegExp('^' + current_host);
+isSameHost = hostRegex.test(referrer_url);
+if (isSameHost) {
+  transition_count += 1;
+  document.cookie = `transition_count=${transition_count}`;
+  console.log('同じところで遷移したよ');
+} else {
+  console.log('違うところから来たよ');
+}
 
 var closeContentArr = [
       "<div class='fanp-modal-overLay fanp-modal-close'>",
