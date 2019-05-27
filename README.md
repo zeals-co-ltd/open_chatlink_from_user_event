@@ -1,24 +1,22 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## 参考json
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```json
+[
+  {
+    "path": "\t^/order/complete.php?order_id=",
+    "condition": {
+      "type": "wait",
+      "minutes": 20,
+      "child": {
+        "path": "^/order/confirm.php?order_id=",
+        "condition": {
+          "type": "ref",
+          "path": "^/top/"
+        }
+      }
+    }
+  }
+]
+```
