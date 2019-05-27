@@ -1,1 +1,14 @@
 console.log('Hello プラグイン');
+
+var cookiesArray = document.cookie.split('; ');
+console.log(cookiesArray);
+
+
+var closeContentArr = [
+      "<div class='fanp-modal-overLay fanp-modal-close'>",
+      "モーダル",
+      "</div>"
+    ];
+var modalTag = document.createElement('div');
+modalTag.innerHTML = closeContentArr.join('');
+modalTag.id = 'fanp-modal';
