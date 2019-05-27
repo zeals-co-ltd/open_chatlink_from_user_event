@@ -18,7 +18,7 @@ class StaticsController < ApplicationController
 
   def condition_open_modal_json
     {
-      pages: [
+      paterns: [
         {
           path_regexp: '^/statics/top',
           page_chatlinks: {

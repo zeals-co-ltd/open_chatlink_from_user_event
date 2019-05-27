@@ -17,11 +17,12 @@ var current_url = location.href;
 var current_path = location.pathname;
 
 // forEeach がBreakできないそうなので someを使用
-jsonVal.pages.some(function(element){
+jsonVal.paterns.some(function(element){
   var regex = new RegExp(element.path_regexp);
   var isCurrent = regex.test(current_path);
   if (isCurrent) {
     currentChatlinks = element.page_chatlinks
+    // パターンにマッチした瞬間にループ抜ける（本来の使い方とは若干ずれるらしい）
     return true;
   }
 })
