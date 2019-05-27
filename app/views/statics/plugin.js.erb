@@ -70,18 +70,50 @@ modalTag.id = 'fanp-modal';
 
 // open modal func *************
 
-var openModal = function(conditions, modalTag) {
+var openModal = function() {
+  if (isCondProcessExec == true) {
+    return;
+  }
   document.body.appendChild(modalTag);
-  for(let k of Object.keys(conditions)) {
-    console.log(conditions[k]);
+  isCondProcessExec = true;
+}
+
+var refConditionFunc = function() {
+  console.log('refです');
+  openModal();
+}
+var waitForConditionFunc = function() {
+  console.log('wait_for です');
+  openModal();
+}
+var transitionCountConditionFunc = function() {
+  console.log('transition_countです');
+  openModal();
+}
+
+var isCondProcessExec = false
+
+var conditionProcess = function(condition) {
+  console.log(condition[0])
+  switch(condition[0]) {
+    case 'ref':
+      refConditionFunc();
+      break;
+    case 'wait_for':
+      waitForConditionFunc();
+      break;
+    case 'transition_count':
+      transitionCountConditionFunc();
   }
 }
 
 if (!currentChatlinks.modal) {
   console.log('ないで！！！');
 } else {
-  openModal(currentChatlinks.modal.conditions, modalTag)
+  conditionProcess(Object.entries(currentChatlinks.modal.conditions)[0])
 }
+
+isCondProcessExec == true ? console.log('もう実行できない') : console.log('まだ実行できる')
 
 
 // banner open func

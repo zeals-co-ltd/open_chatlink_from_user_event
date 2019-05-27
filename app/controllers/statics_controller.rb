@@ -23,7 +23,7 @@ class StaticsController < ApplicationController
           path_regexp: '^/statics/top',
           page_chatlinks: {
             banner: {
-              img_url: ''
+              img_url: 'https://placehold.jp/300x150.png'
             },
             modal: {
               conditions: {
@@ -38,7 +38,7 @@ class StaticsController < ApplicationController
           path_regexp: '^/statics/second',
           page_chatlinks: {
             banner: {
-              img_url: ''
+              img_url: 'https://placehold.jp/150x150.png'
             },
             modal: {
               conditions: {
@@ -52,7 +52,7 @@ class StaticsController < ApplicationController
           path_regexp: '^/statics/third',
           page_chatlinks: {
             modal: {
-              condition: {
+              conditions: {
                 wait_for: 30
               }
             }
