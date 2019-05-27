@@ -26,9 +26,10 @@ class StaticsController < ApplicationController
               img_url: ''
             },
             modal: {
-              condition: {
+              conditions: {
                 wait_for: 30,
-                ref: '^/statics/second'
+                ref: '^/statics/second',
+                transition_count: 2
               }
             }
           }
@@ -40,7 +41,7 @@ class StaticsController < ApplicationController
               img_url: ''
             },
             modal: {
-              condition: {
+              conditions: {
                 wait_for: 30,
                 ref: '^/statics/third'
               }

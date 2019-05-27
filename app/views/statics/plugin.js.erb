@@ -11,6 +11,9 @@ const jsonParseCookieVal = cookie_key => {
   }
 }
 
+
+//get condition for current page *************
+
 // 特定のcookieのkeyからJSONをparseする
 let jsonVal = jsonParseCookieVal('fanp_chatlink_conditions')
 console.log(jsonVal);
@@ -25,15 +28,18 @@ jsonVal.paterns.some(function(element){
   if (isCurrent) {
     currentChatlinks = element.page_chatlinks
     // パターンにマッチした瞬間にループ抜ける（本来の使い方とは若干ずれるらしい）
+    // 他にも書き方あるので要検討
     return true;
   }
 })
 
 console.log(currentChatlinks);
 
+
+//transition count func *************
+
 transition_val = jsonParseCookieVal('transition_count');
 transition_count = !transition_val ? 0 : Number(transition_val);
-console.log(transition_count)
 
 var current_host = location.protocol + '//' + location.host;
 var referrer_url = document.referrer;
@@ -47,6 +53,11 @@ if (isSameHost) {
   console.log('違うところから来たよ');
 }
 
+console.log(transition_count)
+
+
+// modal dom *************
+
 var closeContentArr = [
       "<div class='fanp-modal-overLay fanp-modal-close'>",
       "モーダル",
@@ -56,6 +67,22 @@ var modalTag = document.createElement('div');
 modalTag.innerHTML = closeContentArr.join('');
 modalTag.id = 'fanp-modal';
 
-if (false) {
-  document.body.appendChild(modalTag)
-};
+
+// open modal func *************
+
+var openModal = function(conditions, modalTag) {
+  document.body.appendChild(modalTag);
+  for(let k of Object.keys(conditions)) {
+    console.log(conditions[k]);
+  }
+}
+
+if (!currentChatlinks.modal) {
+  console.log('ないで！！！');
+} else {
+  openModal(currentChatlinks.modal.conditions, modalTag)
+}
+
+
+// banner open func
+
