@@ -2,12 +2,12 @@ var cookiesArray = document.cookie.split('; ');
 console.log(cookiesArray);
 
 
-const jsonParseCookieVal = cookie_key => {
-  var cookie_val = decodeURIComponent(((document.cookie + ';').match(cookie_key + '=([^¥S;]*)') || [])[1])
-  if (cookie_val == 'undefined') {
+const jsonParseCookieVal = cookieKey => {
+  var cookieVal = decodeURIComponent(((document.cookie + ';').match(cookieKey + '=([^¥S;]*)') || [])[1])
+  if (cookieVal == 'undefined') {
     return undefined;
   } else {
-    return JSON.parse(cookie_val);
+    return JSON.parse(cookieVal);
   }
 }
 
@@ -18,11 +18,10 @@ const jsonParseCookieVal = cookie_key => {
 let jsonVal = jsonParseCookieVal('fanp_chatlink_conditions')
 console.log(jsonVal);
 
-var currentUrl = location.href;
 var currentPath = location.pathname;
 
 // forEeach がBreakできないそうなので someを使用
-jsonVal.paterns.some(function(element){
+jsonVal.paterns.some(function (element) {
   var regex = new RegExp(element.path_regexp);
   var isCurrent = regex.test(currentPath);
   if (isCurrent) {
@@ -41,7 +40,7 @@ console.log(currentChatlinks);
 var transitionVal = jsonParseCookieVal('transition_count');
 var transitionCount = !transitionVal ? 0 : Number(transitionVal);
 
-var currentHost = location.protocol + '//' + location.host;
+var currentHost = location.origin;
 var referrerUrl = document.referrer;
 var hostRegex = new RegExp('^' + currentHost);
 isSameHost = hostRegex.test(referrerUrl);
@@ -59,10 +58,10 @@ console.log('現在の遷移数', transitionCount)
 // modal dom *************
 
 var closeContentArr = [
-      "<div class='fanp-modal-overLay fanp-modal-close'>",
-      "モーダル",
-      "</div>"
-    ];
+  "<div class='fanp-modal-overLay fanp-modal-close'>",
+  "モーダル",
+  "</div>"
+];
 var modalTag = document.createElement('div');
 modalTag.innerHTML = closeContentArr.join('');
 modalTag.id = 'fanp-modal';
@@ -83,18 +82,24 @@ function openModal() {
   isCondProcessExec = true;
 }
 
-var refConditionFunc = function(conditionVal) {
-  console.log('refです');
-  openModal();
+var refRegexConditionFunc = function (conditionVal) {
+  console.log('refRegexです');
+  var refRegex = new RegExp(conditionVal)
+  var refUrl = document.referrer
+  if (refRegex.test(refUrl)) {
+    openModal();
+  } else {
+    console.log('パターンにマッチしませんでした')
+  }
 }
-var waitForConditionFunc = function(conditionVal) {
+var waitForConditionFunc = function (conditionVal) {
   console.log('wait_for です');
   setTimeout(() => {
     openModal();
     statusCondProcessExec(isCondProcessExec);
   }, conditionVal * 1000);
 }
-var transitionCountConditionFunc = function(conditionVal) {
+var transitionCountConditionFunc = function (conditionVal) {
   console.log('transition_countです');
   if (transitionCount >= conditionVal) {
     openModal();
@@ -103,10 +108,10 @@ var transitionCountConditionFunc = function(conditionVal) {
 
 var isCondProcessExec = false
 
-var conditionProcess = function(condition) {
-  switch(condition[0]) {
-    case 'ref':
-      refConditionFunc(condition[1]);
+var conditionProcess = function (condition) {
+  switch (condition[0]) {
+    case 'ref_regex':
+      refRegexConditionFunc(condition[1]);
       break;
     case 'wait_for':
       waitForConditionFunc(condition[1]);
@@ -126,4 +131,3 @@ statusCondProcessExec(isCondProcessExec)
 
 
 // banner open func
-

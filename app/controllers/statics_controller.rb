@@ -27,7 +27,7 @@ class StaticsController < ApplicationController
             },
             modal: {
               conditions: {
-                ref: '^/statics/second'
+                ref_regex: '/statics/second'
               }
             }
           }
