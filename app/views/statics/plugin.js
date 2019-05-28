@@ -149,7 +149,7 @@ currentURL = document.URL;
 if (!currentChatlinks.banner) {
   console.log('banner ないで！！！');
 } else {
-  console.log('bannerあります')
+  console.log('bannerあります');
   // 特定のHTML要素に img URLぶち込む
   fanpBannerImgTag = document.getElementById('fanp-banner-img-tag');
   fanpBannerImgTag.src = currentChatlinks.banner.img_url;

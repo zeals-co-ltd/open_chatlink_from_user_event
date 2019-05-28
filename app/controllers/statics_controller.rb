@@ -14,6 +14,10 @@ class StaticsController < ApplicationController
     render :plugin
   end
 
+  def banner
+    send_file 'https://placehold.jp/300x150.png', type: 'image/png'
+  end
+
   private
 
   def condition_open_modal_json

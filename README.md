@@ -2,21 +2,24 @@
 
 ## 参考json
 
-```json
-[
-  {
-    "path": "\t^/order/complete.php?order_id=",
-    "condition": {
-      "type": "wait",
-      "minutes": 20,
-      "child": {
-        "path": "^/order/confirm.php?order_id=",
-        "condition": {
-          "type": "ref",
-          "path": "^/top/"
+```ruby
+{
+  paterns: [
+    {
+      path_regexp: '^/statics/top',
+      page_chatlinks: {
+        banner: {
+          img_url: 'https://placehold.jp/300x150.png'
+        },
+        modal: {
+          conditions: {
+            ref_regex: '/statics/second'
+          }
         }
       }
-    }
-  }
-]
+    },
+    :
+    :
+  ]
+}
 ```
