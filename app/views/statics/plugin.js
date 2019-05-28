@@ -122,7 +122,7 @@ var conditionProcess = function (condition) {
 }
 
 if (!currentChatlinks.modal) {
-  console.log('ないで！！！');
+  console.log('modal ないで！！！');
 } else {
   conditionProcess(Object.entries(currentChatlinks.modal.conditions)[0])
 }
@@ -131,3 +131,26 @@ statusCondProcessExec(isCondProcessExec)
 
 
 // banner open func
+
+// util? (ピクセルトラッキングのこと)
+function appendImg(eventData) {
+  var imgElement = document.createElement('img');
+  imgElement.src = fanpLogUrl + createParamaters(eventData);
+  imgElement.hidden = 'hidden';
+  document.body.appendChild(imgElement);
+}
+
+// main
+// var n = document.getElementById('fanp-tag-plugin');
+
+currentURL = document.URL;
+// chatLinkId = n.getAttribute('data-chat-link-id');
+
+if (!currentChatlinks.banner) {
+  console.log('banner ないで！！！');
+} else {
+  console.log('bannerあります')
+  // 特定のHTML要素に img URLぶち込む
+  fanpBannerImgTag = document.getElementById('fanp-banner-img-tag');
+  fanpBannerImgTag.src = currentChatlinks.banner.img_url;
+}
