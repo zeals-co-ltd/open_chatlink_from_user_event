@@ -18,13 +18,13 @@ const jsonParseCookieVal = cookie_key => {
 let jsonVal = jsonParseCookieVal('fanp_chatlink_conditions')
 console.log(jsonVal);
 
-var current_url = location.href;
-var current_path = location.pathname;
+var currentUrl = location.href;
+var currentPath = location.pathname;
 
 // forEeach がBreakできないそうなので someを使用
 jsonVal.paterns.some(function(element){
   var regex = new RegExp(element.path_regexp);
-  var isCurrent = regex.test(current_path);
+  var isCurrent = regex.test(currentPath);
   if (isCurrent) {
     currentChatlinks = element.page_chatlinks
     // パターンにマッチした瞬間にループ抜ける（本来の使い方とは若干ずれるらしい）
@@ -38,22 +38,22 @@ console.log(currentChatlinks);
 
 //transition count func *************
 
-transition_val = jsonParseCookieVal('transition_count');
-transition_count = !transition_val ? 0 : Number(transition_val);
+var transitionVal = jsonParseCookieVal('transition_count');
+var transitionCount = !transitionVal ? 0 : Number(transitionVal);
 
-var current_host = location.protocol + '//' + location.host;
-var referrer_url = document.referrer;
-var hostRegex = new RegExp('^' + current_host);
-isSameHost = hostRegex.test(referrer_url);
+var currentHost = location.protocol + '//' + location.host;
+var referrerUrl = document.referrer;
+var hostRegex = new RegExp('^' + currentHost);
+isSameHost = hostRegex.test(referrerUrl);
 if (isSameHost) {
-  transition_count += 1;
-  document.cookie = `transition_count=${transition_count}`;
-  console.log('同じところで遷移したよ');
+  transitionCount += 1;
+  document.cookie = `transition_count=${transitionCount}`;
+  console.log('同じところで遷移');
 } else {
-  console.log('違うところから来たよ');
+  console.log('外部から遷移');
 }
 
-console.log(transition_count)
+console.log('現在の遷移数', transitionCount)
 
 
 // modal dom *************
@@ -70,12 +70,8 @@ modalTag.id = 'fanp-modal';
 
 // open modal func *************
 
-const statusCondProcessExec = isCondProcessExec => {
-  if (isCondProcessExec) {
-    console.log('もう実行できない');
-  } else {
-    console.log('まだ実行できる')
-  }
+const statusCondProcessExec = isExeced => {
+  isExeced ? console.log('もう実行できない') : console.log('まだ実行できる')
 }
 
 function openModal() {
@@ -100,7 +96,9 @@ var waitForConditionFunc = function(conditionVal) {
 }
 var transitionCountConditionFunc = function(conditionVal) {
   console.log('transition_countです');
-  openModal();
+  if (transitionCount >= conditionVal) {
+    openModal();
+  }
 }
 
 var isCondProcessExec = false

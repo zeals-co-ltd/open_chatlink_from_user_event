@@ -27,9 +27,7 @@ class StaticsController < ApplicationController
             },
             modal: {
               conditions: {
-                wait_for: 30,
-                ref: '^/statics/second',
-                transition_count: 2
+                ref: '^/statics/second'
               }
             }
           }
@@ -42,8 +40,7 @@ class StaticsController < ApplicationController
             },
             modal: {
               conditions: {
-                wait_for: 3,
-                ref: '^/statics/third'
+                wait_for: 3
               }
             }
           }
@@ -53,7 +50,7 @@ class StaticsController < ApplicationController
           page_chatlinks: {
             modal: {
               conditions: {
-                wait_for: 5
+                transition_count: 3
               }
             }
           }
