@@ -70,7 +70,15 @@ modalTag.id = 'fanp-modal';
 
 // open modal func *************
 
-var openModal = function() {
+const statusCondProcessExec = isCondProcessExec => {
+  if (isCondProcessExec) {
+    console.log('もう実行できない');
+  } else {
+    console.log('まだ実行できる')
+  }
+}
+
+function openModal() {
   if (isCondProcessExec == true) {
     console.log('1度しか実行できません')
     return;
@@ -79,15 +87,18 @@ var openModal = function() {
   isCondProcessExec = true;
 }
 
-var refConditionFunc = function() {
+var refConditionFunc = function(conditionVal) {
   console.log('refです');
   openModal();
 }
-var waitForConditionFunc = function() {
+var waitForConditionFunc = function(conditionVal) {
   console.log('wait_for です');
-  openModal();
+  setTimeout(() => {
+    openModal();
+    statusCondProcessExec(isCondProcessExec);
+  }, conditionVal * 1000);
 }
-var transitionCountConditionFunc = function() {
+var transitionCountConditionFunc = function(conditionVal) {
   console.log('transition_countです');
   openModal();
 }
@@ -97,13 +108,13 @@ var isCondProcessExec = false
 var conditionProcess = function(condition) {
   switch(condition[0]) {
     case 'ref':
-      refConditionFunc();
+      refConditionFunc(condition[1]);
       break;
     case 'wait_for':
-      waitForConditionFunc();
+      waitForConditionFunc(condition[1]);
       break;
     case 'transition_count':
-      transitionCountConditionFunc();
+      transitionCountConditionFunc(condition[1]);
   }
 }
 
@@ -113,7 +124,7 @@ if (!currentChatlinks.modal) {
   conditionProcess(Object.entries(currentChatlinks.modal.conditions)[0])
 }
 
-isCondProcessExec == true ? console.log('もう実行できない') : console.log('まだ実行できる')
+statusCondProcessExec(isCondProcessExec)
 
 
 // banner open func

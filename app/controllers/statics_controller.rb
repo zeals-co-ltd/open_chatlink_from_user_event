@@ -42,7 +42,7 @@ class StaticsController < ApplicationController
             },
             modal: {
               conditions: {
-                wait_for: 30,
+                wait_for: 3,
                 ref: '^/statics/third'
               }
             }
@@ -53,7 +53,7 @@ class StaticsController < ApplicationController
           page_chatlinks: {
             modal: {
               conditions: {
-                wait_for: 30
+                wait_for: 5
               }
             }
           }
