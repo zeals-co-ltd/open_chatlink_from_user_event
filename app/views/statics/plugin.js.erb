@@ -72,6 +72,7 @@ modalTag.id = 'fanp-modal';
 
 var openModal = function() {
   if (isCondProcessExec == true) {
+    console.log('1度しか実行できません')
     return;
   }
   document.body.appendChild(modalTag);
@@ -94,7 +95,6 @@ var transitionCountConditionFunc = function() {
 var isCondProcessExec = false
 
 var conditionProcess = function(condition) {
-  console.log(condition[0])
   switch(condition[0]) {
     case 'ref':
       refConditionFunc();
